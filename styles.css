@@ -216,6 +216,10 @@ elevenlabs-convai {
 }
 
 .highlights__intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 18px;
 }
 
@@ -225,6 +229,38 @@ elevenlabs-convai {
   font-weight: 600;
   letter-spacing: 0;
   line-height: 1;
+}
+
+.cv-download {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: #293038;
+  background: rgba(255, 255, 255, 0.52);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.cv-download:hover {
+  border-color: rgba(7, 159, 195, 0.42);
+  color: #047f9c;
+  background: rgba(255, 255, 255, 0.84);
+  transform: translateY(-1px);
+}
+
+.cv-download:focus-visible {
+  outline: 3px solid rgba(101, 215, 230, 0.48);
+  outline-offset: 3px;
 }
 
 .highlight-list {
@@ -339,6 +375,11 @@ elevenlabs-convai {
 
   .panel-media {
     flex-basis: 150px;
+  }
+
+  .highlights__intro {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .highlight {

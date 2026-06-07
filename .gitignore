@@ -1,0 +1,5 @@
+.DS_Store
+*/.DS_Store
+
+# Backstage / private setup material — not for public repo
+elevenlabs-agent-setup/

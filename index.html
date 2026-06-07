@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Talk to Zen Foo's CV through a lightweight AI voice and text agent."
+    >
+    <title>Talk to my CV | Zen Foo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css?v=widget-fill-20260607">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="page-card" aria-labelledby="hero-title">
+        <section class="hero" aria-labelledby="hero-title">
+          <h1 id="hero-title">
+            <span class="hero-name">Hi, I'm Zen.</span>
+            <span class="hero-subtitle">This is my interactive <span class="nowrap">AI CV.</span></span>
+          </h1>
+          <p class="hero-intro">
+            Ask about my Chief of Staff work, AI projects, community talks, or the bits a
+            two-page PDF politely refuses to explain.
+          </p>
+        </section>
+
+        <section class="conversation-grid" aria-label="Talk to Zen's CV">
+          <article class="agent-panel" id="agent">
+            <div class="panel-media" aria-hidden="true">
+              <video autoplay muted loop playsinline poster="assets/abstract-voice.png">
+                <source src="assets/hero-agent-loop.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <div class="panel-body">
+              <div class="agent-heading">
+                <h2>
+                  Ask <span class="accent-name">Zen</span> anything about his CV,
+                  in <span class="accent-name">text</span> or <span class="accent-name">voice</span>.
+                </h2>
+              </div>
+
+              <div class="widget-shell">
+                <elevenlabs-convai
+                  agent-id="agent_6701ktgknep9eavbncs99r4p5v3b"
+                  variant="fullscreen"
+                  dismissible="false"
+                  style="
+                    width: 100%;
+                    max-width: none;
+                    height: 100%;
+                    min-height: inherit;
+                    --el-overlay-padding: 18px;
+                    --el-sheet-radius: 24px;
+                    --el-button-radius: 18px;
+                    --el-input-radius: 14px;
+                    --el-base: #ffffff;
+                    --el-base-border: rgba(8, 9, 10, 0.1);
+                    --el-accent: #070809;
+                    --el-accent-hover: #1d242b;
+                    --el-accent-active: #303942;
+                  "
+                  action-text="Ask my CV"
+                  start-call-text="Start voice chat"
+                  expand-text="Open voice or text chat"
+                  listening-text="Listening..."
+                  speaking-text="Replying..."
+                ></elevenlabs-convai>
+              </div>
+            </div>
+          </article>
+
+          <aside class="highlights" aria-labelledby="highlights-title">
+            <div class="highlights__intro">
+              <h2 id="highlights-title">Brief Highlights</h2>
+            </div>
+
+            <div class="highlight-list">
+              <article class="highlight">
+                <span>01</span>
+                <h3>Chief of Staff</h3>
+                <p>Right hand to Aspire's co-founder/CTO across planning, roadmaps, reviews, and exec materials.</p>
+              </article>
+              <article class="highlight">
+                <span>02</span>
+                <h3>AI builder</h3>
+                <p>I build platforms, agents, tools, automations, and the occasional thing that started as a spreadsheet.</p>
+              </article>
+              <article class="highlight">
+                <span>03</span>
+                <h3>AI transformation</h3>
+                <p>Strategy, enablement, workshops, and org-level adoption, from operators to C-suite rooms.</p>
+              </article>
+              <article class="highlight">
+                <span>04</span>
+                <h3>Community voice</h3>
+                <p>Talks and workshops for audiences from small founder rooms to 300+ AI meetups and larger panels.</p>
+              </article>
+            </div>
+          </aside>
+        </section>
+
+        <section class="bottom-cta" aria-labelledby="cta-title">
+          <div class="bottom-cta__content">
+            <h2 id="cta-title" class="bottom-cta__title">Don't take my word for it. Ask me yourself!</h2>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <script src="script.js?v=widget-fill-20260607" defer></script>
+  </body>
+</html>

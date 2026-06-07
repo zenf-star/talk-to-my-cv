@@ -41,26 +41,31 @@ function fitElevenLabsWidget() {
     poweredBy.style.zIndex = '20';
   }
 
-  fitVoiceCallLayout(root, sheet);
+  fitActiveConversationLayout(root, sheet);
 
   return true;
 }
 
-function fitVoiceCallLayout(root, sheet) {
+function fitActiveConversationLayout(root, sheet) {
   const text = root.textContent || '';
   const callLooksActive =
     text.includes('Talk to interrupt') ||
     text.includes('Listening') ||
     text.includes('Replying') ||
     Boolean(root.querySelector('[aria-label="End call"]'));
+  const textChatLooksActive =
+    text.includes('Chatting with') ||
+    text.includes('Send a message') ||
+    Boolean(root.querySelector('textarea, input'));
 
-  if (!callLooksActive) return;
+  if (!callLooksActive && !textChatLooksActive) return;
 
   const stageCandidates = [...root.querySelectorAll('div')]
     .filter((element) => {
       const className = element.className || '';
       const content = element.textContent || '';
       if (content.includes('Terms and conditions')) return false;
+      if (!sheet.contains(element)) return false;
 
       const rect = element.getBoundingClientRect();
       const sheetRect = sheet.getBoundingClientRect();
@@ -73,8 +78,7 @@ function fitVoiceCallLayout(root, sheet) {
     })
     .sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width);
 
-  const stage = stageCandidates[0];
-  if (stage) {
+  stageCandidates.forEach((stage) => {
     stage.style.width = '100%';
     stage.style.maxWidth = 'none';
     stage.style.height = '100%';
@@ -82,7 +86,7 @@ function fitVoiceCallLayout(root, sheet) {
     stage.style.margin = '0';
     stage.style.borderRadius = 'var(--el-sheet-radius)';
     stage.style.boxShadow = 'none';
-  }
+  });
 
   root.querySelectorAll('textarea, input').forEach((input) => {
     const wrapper = input.closest('div');

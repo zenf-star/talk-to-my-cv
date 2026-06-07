@@ -259,9 +259,9 @@ elevenlabs-convai {
 
 .highlight p {
   margin: 0;
-  color: var(--muted);
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.5;
+  color: #58616b;
+  font-size: clamp(16px, 1.18vw, 18px);
+  line-height: 1.72;
 }
 
 .bottom-cta {
@@ -341,8 +341,8 @@ elevenlabs-convai {
     flex-basis: 150px;
   }
 
-  .highlight-list {
-    grid-template-columns: 1fr;
+  .highlight {
+    min-height: auto;
   }
 }
 

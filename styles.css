@@ -210,48 +210,15 @@ elevenlabs-convai {
 
 .mobile-voice-note {
   display: none;
-  margin: 10px 2px 0;
+  margin: 14px 2px 12px;
   color: #68727b;
   font-size: 13px;
   line-height: 1.45;
 }
 
-.mobile-mic-helper {
-  display: none;
-}
-
-.mobile-mic-button {
-  appearance: none;
-  border: 1px solid #079fc3;
-  border-radius: 999px;
-  padding: 11px 15px;
-  color: #ffffff;
-  background: #079fc3;
-  font: inherit;
-  font-size: 13px;
+.mobile-voice-note strong {
+  color: #2f3841;
   font-weight: 800;
-  line-height: 1;
-  box-shadow: 0 10px 22px rgba(7, 159, 195, 0.18);
-}
-
-.mobile-mic-button:disabled {
-  cursor: default;
-  opacity: 0.82;
-}
-
-.mobile-mic-button:focus-visible {
-  outline: 3px solid rgba(101, 215, 230, 0.48);
-  outline-offset: 3px;
-}
-
-.mobile-mic-status {
-  color: #68727b;
-  font-size: 13px;
-  line-height: 1.42;
-}
-
-.mobile-mic-status:empty {
-  display: none;
 }
 
 .highlights {
@@ -282,14 +249,15 @@ elevenlabs-convai {
   flex: 0 0 auto;
   align-items: center;
   min-height: 34px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid #079fc3;
   border-radius: 999px;
-  padding: 8px 13px;
-  color: #293038;
-  background: rgba(255, 255, 255, 0.52);
+  padding: 9px 14px;
+  color: #ffffff;
+  background: #079fc3;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
+  box-shadow: 0 10px 22px rgba(7, 159, 195, 0.18);
   transition:
     border-color 160ms ease,
     background 160ms ease,
@@ -298,9 +266,9 @@ elevenlabs-convai {
 }
 
 .cv-download:hover {
-  border-color: rgba(7, 159, 195, 0.42);
-  color: #047f9c;
-  background: rgba(255, 255, 255, 0.84);
+  border-color: #047f9c;
+  color: #ffffff;
+  background: #047f9c;
   transform: translateY(-1px);
 }
 
@@ -457,17 +425,6 @@ elevenlabs-convai {
     min-height: min(388px, 54vh);
   }
 
-  .mobile-mic-helper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 2px 12px;
-  }
-
-  .mobile-mic-button {
-    flex: 0 0 auto;
-  }
-
   .mobile-voice-note {
     display: block;
   }
@@ -499,10 +456,6 @@ elevenlabs-convai {
     font-size: clamp(26px, 8.6vw, 32px);
   }
 
-  .mobile-mic-helper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

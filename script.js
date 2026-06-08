@@ -89,56 +89,6 @@ function replacePermissionError(root) {
   errorElement.append(title, body);
 }
 
-function setupMobileMicrophoneButton() {
-  const button = document.querySelector('.mobile-mic-button');
-  const status = document.querySelector('.mobile-mic-status');
-  if (!button || !status || button.dataset.listenerAttached === 'true') return;
-
-  button.dataset.listenerAttached = 'true';
-  let requestInFlight = false;
-  let lastRequestAt = 0;
-
-  const requestMicrophone = async (event) => {
-    if (event.cancelable) event.preventDefault();
-    if (requestInFlight) return;
-    const now = Date.now();
-    if (now - lastRequestAt < 800) return;
-    lastRequestAt = now;
-
-    if (!navigator.mediaDevices?.getUserMedia) {
-      status.textContent = 'This browser cannot request microphone access here. Try typing below or use desktop.';
-      return;
-    }
-
-    if (!window.isSecureContext) {
-      status.textContent = 'Microphone access needs HTTPS. Use the deployed site, type below, or try on desktop.';
-      return;
-    }
-
-    requestInFlight = true;
-    button.disabled = true;
-    button.textContent = 'Requesting...';
-    status.textContent = 'Your browser may ask for microphone access now.';
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach((track) => track.stop());
-      button.textContent = 'Microphone enabled';
-      status.textContent = 'Mic access is enabled. Now tap the phone button in the chat box. If mobile still fails, try on desktop.';
-    } catch (error) {
-      button.disabled = false;
-      button.textContent = 'Enable microphone';
-      status.textContent = 'No mic prompt appeared. You can still type below or try on desktop.';
-    } finally {
-      requestInFlight = false;
-    }
-  };
-
-  button.addEventListener('pointerup', requestMicrophone);
-  button.addEventListener('touchend', requestMicrophone);
-  button.addEventListener('click', requestMicrophone);
-}
-
 function fitActiveConversationLayout(root, sheet) {
   const text = root.textContent || '';
   const callLooksActive =
@@ -208,10 +158,8 @@ function keepWidgetFitted() {
 }
 
 window.addEventListener('load', () => {
-  setupMobileMicrophoneButton();
   keepWidgetFitted();
   const interval = window.setInterval(() => {
-    setupMobileMicrophoneButton();
     keepWidgetFitted();
     if (document.querySelector('elevenlabs-convai')?.shadowRoot?.querySelector('.sheet')) {
       window.clearInterval(interval);

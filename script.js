@@ -2,12 +2,17 @@ function fitElevenLabsWidget() {
   const widget = document.querySelector('elevenlabs-convai');
   const root = widget?.shadowRoot;
   if (!root) return false;
+  const isMobile = window.matchMedia('(max-width: 680px)').matches;
 
   const overlay = root.querySelector('.overlay');
   const sheet = root.querySelector('.sheet');
   if (!overlay || !sheet) return false;
   const poweredBy = [...root.querySelectorAll('p')]
     .find((element) => element.textContent?.includes('Powered by'));
+
+  widget.style.setProperty('--el-overlay-padding', isMobile ? '8px' : '18px');
+  widget.style.setProperty('--el-sheet-radius', isMobile ? '22px' : '24px');
+  widget.style.setProperty('--el-input-radius', isMobile ? '14px' : '14px');
 
   overlay.style.inset = '0';
   overlay.style.right = '0';
@@ -27,7 +32,7 @@ function fitElevenLabsWidget() {
   sheet.style.height = '100%';
   sheet.style.maxHeight = 'none';
   sheet.style.margin = '0';
-  sheet.style.borderRadius = 'var(--el-sheet-radius)';
+  sheet.style.borderRadius = isMobile ? '22px' : 'var(--el-sheet-radius)';
   sheet.style.transform = 'none';
   sheet.style.transformOrigin = 'center';
 
@@ -78,7 +83,7 @@ function replacePermissionError(root) {
   title.style.fontSize = '18px';
 
   const body = document.createElement('span');
-  body.textContent = 'You can still type below. To use voice on mobile, allow microphone access for this site, then refresh and try again. If it still fails, try desktop.';
+  body.textContent = 'You can still type below. To use voice on mobile, allow microphone access for this site, then refresh and try again. If it still fails, try on desktop.';
   body.style.fontSize = '15px';
 
   errorElement.append(title, body);
@@ -90,17 +95,27 @@ function setupMobileMicrophoneButton() {
   if (!button || !status || button.dataset.listenerAttached === 'true') return;
 
   button.dataset.listenerAttached = 'true';
-  button.addEventListener('click', async () => {
+  let requestInFlight = false;
+  let lastRequestAt = 0;
+
+  const requestMicrophone = async (event) => {
+    if (event.cancelable) event.preventDefault();
+    if (requestInFlight) return;
+    const now = Date.now();
+    if (now - lastRequestAt < 800) return;
+    lastRequestAt = now;
+
     if (!navigator.mediaDevices?.getUserMedia) {
-      status.textContent = 'This browser cannot request microphone access here. Type below, or try desktop.';
+      status.textContent = 'This browser cannot request microphone access here. Try typing below or use desktop.';
       return;
     }
 
     if (!window.isSecureContext) {
-      status.textContent = 'Microphone access needs HTTPS. Use the deployed site, type below, or try desktop.';
+      status.textContent = 'Microphone access needs HTTPS. Use the deployed site, type below, or try on desktop.';
       return;
     }
 
+    requestInFlight = true;
     button.disabled = true;
     button.textContent = 'Requesting...';
     status.textContent = 'Your browser may ask for microphone access now.';
@@ -109,13 +124,19 @@ function setupMobileMicrophoneButton() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
       button.textContent = 'Microphone enabled';
-      status.textContent = 'Mic access is enabled. Now tap the phone button in the chat box. If mobile still fails, try desktop.';
+      status.textContent = 'Mic access is enabled. Now tap the phone button in the chat box. If mobile still fails, try on desktop.';
     } catch (error) {
       button.disabled = false;
       button.textContent = 'Enable microphone';
-      status.textContent = 'Microphone access was blocked. You can still type below, allow mic access in browser settings, or try desktop.';
+      status.textContent = 'No mic prompt appeared. You can still type below or try on desktop.';
+    } finally {
+      requestInFlight = false;
     }
-  });
+  };
+
+  button.addEventListener('pointerup', requestMicrophone);
+  button.addEventListener('touchend', requestMicrophone);
+  button.addEventListener('click', requestMicrophone);
 }
 
 function fitActiveConversationLayout(root, sheet) {
@@ -141,12 +162,14 @@ function fitActiveConversationLayout(root, sheet) {
 
       const rect = element.getBoundingClientRect();
       const sheetRect = sheet.getBoundingClientRect();
-      const isUsefulSize = rect.width > 260 && rect.height > 260;
+      const minUsefulWidth = Math.min(260, sheetRect.width * 0.62);
+      const minUsefulHeight = Math.min(260, sheetRect.height * 0.45);
+      const isUsefulSize = rect.width > minUsefulWidth && rect.height > minUsefulHeight;
       const isConstrained =
         String(className).includes('max-w-') ||
         getComputedStyle(element).maxWidth !== 'none';
 
-      return isUsefulSize && isConstrained && rect.width < sheetRect.width * 0.92;
+      return isUsefulSize && isConstrained && rect.width < sheetRect.width * 0.96;
     })
     .sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width);
 

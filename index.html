@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     >
-    <link rel="stylesheet" href="styles.css?v=mobile-mic-20260608">
+    <link rel="stylesheet" href="styles.css?v=mobile-mic-fix-20260608">
   </head>
   <body>
     <main class="page-shell">
@@ -46,11 +46,12 @@
                 </h2>
               </div>
 
+              <p class="mobile-voice-note">
+                You will need to enable microphone on mobile for the voice agent to work. If issues persist, try on desktop.
+              </p>
               <div class="mobile-mic-helper">
                 <button class="mobile-mic-button" type="button">Enable microphone</button>
-                <span class="mobile-mic-status" aria-live="polite">
-                  Enable mic first, or type below. Still stuck? Try desktop.
-                </span>
+                <span class="mobile-mic-status" aria-live="polite"></span>
               </div>
 
               <div class="widget-shell">
@@ -80,9 +81,6 @@
                   speaking-text="Replying..."
                 ></elevenlabs-convai>
               </div>
-              <p class="mobile-voice-note">
-                If your browser blocks voice, type below or allow microphone access for this site. If issues persist, try desktop.
-              </p>
             </div>
           </article>
 
@@ -133,6 +131,6 @@
     </main>
 
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-    <script src="script.js?v=mobile-mic-20260608" defer></script>
+    <script src="script.js?v=mobile-mic-fix-20260608" defer></script>
   </body>
 </html>

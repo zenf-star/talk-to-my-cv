@@ -357,24 +357,59 @@ elevenlabs-convai {
   .page-card {
     min-height: 100vh;
     border-radius: 0;
-    padding: 20px;
+    padding: 18px;
+  }
+
+  .hero {
+    margin: 22px auto 28px;
   }
 
   h1 {
-    font-size: clamp(48px, 14vw, 72px);
+    margin-bottom: 18px;
+    font-size: clamp(43px, 12vw, 58px);
+    line-height: 0.94;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(39px, 11vw, 52px);
+    line-height: 0.98;
   }
 
   .hero-intro {
-    font-size: 17px;
+    font-size: 16px;
+    line-height: 1.55;
   }
 
   .agent-panel,
   .highlights {
-    border-radius: 28px;
+    border-radius: 24px;
   }
 
   .panel-media {
-    flex-basis: 150px;
+    flex-basis: 74px;
+  }
+
+  .panel-body {
+    padding: 16px 14px 14px;
+  }
+
+  .agent-heading {
+    margin-bottom: 14px;
+  }
+
+  .agent-heading h2 {
+    font-size: clamp(26px, 8vw, 32px);
+    line-height: 1.04;
+  }
+
+  .widget-shell {
+    min-height: min(388px, 54vh);
+    border-radius: 22px;
+  }
+
+  elevenlabs-convai {
+    --el-overlay-padding: 10px;
+    --el-sheet-radius: 22px;
   }
 
   .highlights__intro {
@@ -382,8 +417,26 @@ elevenlabs-convai {
     flex-direction: column;
   }
 
+  .highlight-list {
+    grid-template-columns: 1fr;
+  }
+
   .highlight {
     min-height: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .page-card {
+    padding: 16px 14px;
+  }
+
+  .panel-body {
+    padding-inline: 12px;
+  }
+
+  .agent-heading h2 {
+    font-size: clamp(26px, 8.6vw, 32px);
   }
 }
 

@@ -41,9 +41,81 @@ function fitElevenLabsWidget() {
     poweredBy.style.zIndex = '20';
   }
 
+  replacePermissionError(root);
   fitActiveConversationLayout(root, sheet);
 
   return true;
+}
+
+function replacePermissionError(root) {
+  const errorElement = [...root.querySelectorAll('div, p, span')]
+    .find((element) => {
+      const text = element.textContent || '';
+      return (
+        text.includes('An error occurred') &&
+        text.includes('request is not allowed')
+      );
+    });
+
+  if (!errorElement || errorElement.dataset.friendlyPermissionError === 'true') return;
+
+  errorElement.dataset.friendlyPermissionError = 'true';
+  errorElement.textContent = '';
+  errorElement.style.display = 'flex';
+  errorElement.style.flexDirection = 'column';
+  errorElement.style.alignItems = 'center';
+  errorElement.style.justifyContent = 'center';
+  errorElement.style.gap = '10px';
+  errorElement.style.maxWidth = 'min(420px, 86%)';
+  errorElement.style.margin = '0 auto';
+  errorElement.style.color = '#374151';
+  errorElement.style.textAlign = 'center';
+  errorElement.style.lineHeight = '1.35';
+
+  const title = document.createElement('strong');
+  title.textContent = 'Voice was blocked by your browser.';
+  title.style.color = '#111827';
+  title.style.fontSize = '18px';
+
+  const body = document.createElement('span');
+  body.textContent = 'You can still type below. To use voice on mobile, allow microphone access for this site, then refresh and try again. If it still fails, try desktop.';
+  body.style.fontSize = '15px';
+
+  errorElement.append(title, body);
+}
+
+function setupMobileMicrophoneButton() {
+  const button = document.querySelector('.mobile-mic-button');
+  const status = document.querySelector('.mobile-mic-status');
+  if (!button || !status || button.dataset.listenerAttached === 'true') return;
+
+  button.dataset.listenerAttached = 'true';
+  button.addEventListener('click', async () => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      status.textContent = 'This browser cannot request microphone access here. Type below, or try desktop.';
+      return;
+    }
+
+    if (!window.isSecureContext) {
+      status.textContent = 'Microphone access needs HTTPS. Use the deployed site, type below, or try desktop.';
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Requesting...';
+    status.textContent = 'Your browser may ask for microphone access now.';
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((track) => track.stop());
+      button.textContent = 'Microphone enabled';
+      status.textContent = 'Mic access is enabled. Now tap the phone button in the chat box. If mobile still fails, try desktop.';
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = 'Enable microphone';
+      status.textContent = 'Microphone access was blocked. You can still type below, allow mic access in browser settings, or try desktop.';
+    }
+  });
 }
 
 function fitActiveConversationLayout(root, sheet) {
@@ -113,8 +185,10 @@ function keepWidgetFitted() {
 }
 
 window.addEventListener('load', () => {
+  setupMobileMicrophoneButton();
   keepWidgetFitted();
   const interval = window.setInterval(() => {
+    setupMobileMicrophoneButton();
     keepWidgetFitted();
     if (document.querySelector('elevenlabs-convai')?.shadowRoot?.querySelector('.sheet')) {
       window.clearInterval(interval);
